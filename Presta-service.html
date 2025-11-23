@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebCreation | Site Vitrine Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* --- VARIABLES & RESET --- */
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-panel: #171717;
+            --primary: #6366f1; /* Indigo Néon */
+            --accent: #ec4899;  /* Rose Néon */
+            --text-main: #ffffff;
+            --text-muted: #a3a3a3;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* --- UTILS --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.6);
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 0;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            /* Changement ici : min-height pour s'adapter à la taille de l'image */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 120px; /* Espace pour le header */
+            padding-bottom: 50px;
+        }
+
+        .glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(99,102,241,0.3) 0%, rgba(0,0,0,0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            animation: pulse 10s infinite alternate;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px; /* Un peu plus large pour l'image */
+            margin: 0 auto;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards 0.5s;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards 0.8s;
+        }
+
+        .hero-btn-wrapper {
+            opacity: 0;
+            animation: fadeInUp 1s forwards 1.1s;
+        }
+
+        /* NOUVEAU STYLE POUR L'IMAGE */
+        .hero-image-container {
+            margin-top: 60px;
+            opacity: 0;
+            animation: fadeInUp 1s forwards 1.4s; /* Apparait après les boutons */
+        }
+
+        .hero-img {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 0 50px rgba(99, 102, 241, 0.15); /* Lueur violette */
+            transition: transform 0.5s ease;
+        }
+
+        .hero-img:hover {
+            transform: scale(1.02);
+        }
+
+        /* --- SERVICES --- */
+        .services {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 2.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 20px;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            background: rgba(255,255,255, 0.08);
+            transform: translateY(-10px);
+        }
+
+        .card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* --- PRICING --- */
+        .pricing {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .pricing-card {
+            background: linear-gradient(180deg, #1e1e2e 0%, #0f172a 100%);
+            border: 1px solid var(--primary);
+            padding: 60px;
+            text-align: center;
+            border-radius: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            box-shadow: 0 0 50px rgba(99, 102, 241, 0.1);
+        }
+
+        .price {
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 20px 0;
+            color: var(--text-main);
+        }
+
+        .price span {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .features-list {
+            list-style: none;
+            margin: 30px 0;
+            text-align: left;
+            display: inline-block;
+        }
+
+        .features-list li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+
+        .features-list li i {
+            color: var(--accent);
+        }
+
+        /* --- WHATSAPP FLOATING --- */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 2000;
+            transition: transform 0.3s;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 50px 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.1; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Responsif */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .pricing-card { padding: 30px; }
+            .hero-img { margin-top: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">WEB<span class="gradient-text">VITRINE</span></div>
+                <a href="https://wa.me/33619138632?text=Bonjour,%20je%20souhaite%20un%20devis%20pour%20un%20site%20vitrine." class="btn btn-primary" target="_blank">
+                    Devis Gratuit
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="glow"></div>
+        <div class="container hero-content">
+            <h1>Votre Image.<br> <span class="gradient-text">Votre Site Internet.</span></h1>
+            <p>Expertise exclusive en création de sites vitrines. Moderne, rapide et impactant. Pas de e-commerce, juste l'essentiel pour sublimer votre activité.</p>
+            
+            <div class="hero-btn-wrapper">
+                <a href="https://wa.me/33619138632?text=Bonjour,%20je%20souhaite%20parler%20de%20mon%20projet." target="_blank" class="btn btn-primary">
+                    <i class="fab fa-whatsapp"></i> Discuter du projet
+                </a>
+            </div>
+
+            <div class="hero-image-container">
+                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop" 
+                     class="hero-img" 
+                     alt="Création de site internet moderne">
+            </div>
+        </div>
+    </section>
+
+    <section class="services container">
+        <h2 class="section-title reveal">Pourquoi nous choisir ?</h2>
+        <div class="grid">
+            <div class="card reveal">
+                <i class="fas fa-layer-group"></i>
+                <h3>Design Sur-Mesure</h3>
+                <p>Pas de modèles génériques. Un design sombre, moderne et élégant qui correspond à votre identité de marque.</p>
+            </div>
+            <div class="card reveal">
+                <i class="fas fa-bolt"></i>
+                <h3>Ultra Rapide</h3>
+                <p>Optimisation maximale pour Google. Un site qui se charge instantanément pour ne perdre aucun client.</p>
+            </div>
+            <div class="card reveal">
+                <i class="fas fa-check-circle"></i>
+                <h3>Expertise Ciblée</h3>
+                <p>Nous ne faisons que du site vitrine. C'est notre spécialité unique, garantissant un résultat parfait.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing container">
+        <div class="pricing-card reveal">
+            <h3>L'Offre Unique</h3>
+            <p style="margin-top: 10px; color: var(--text-muted);">Clé en main. Sans surprise.</p>
+            
+            <div class="price">
+                250€ <span style="font-size: 1.5rem;">HT</span>
+                <div style="font-size: 1rem; color: var(--accent); margin-top: -10px;">À partir de</div>
+            </div>
+
+            <ul class="features-list">
+                <li><i class="fas fa-check"></i> Création Site Vitrine Complet</li>
+                <li><i class="fas fa-check"></i> Design Moderne & Responsive (Mobile)</li>
+                <li><i class="fas fa-check"></i> Intégration de vos textes et photos</li>
+                <li><i class="fas fa-check"></i> Formulaire de contact / WhatsApp</li>
+                <li><i class="fas fa-check"></i> Optimisation SEO de base</li>
+            </ul>
+
+            <div style="margin-top: 30px;">
+                <a href="https://wa.me/33619138632?text=Bonjour,%20je%20suis%20intéressé%20par%20l'offre%20à%20250%20euros." target="_blank" class="btn btn-primary">
+                    Commander maintenant
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 WebVitrine. Création de sites internet professionnels.</p>
+            <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">Devis sur demande uniquement via WhatsApp.</p>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/33619138632?text=Bonjour,%20je%20voudrais%20un%20devis." class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        window.addEventListener('scroll', reveal);
+
+        function reveal() {
+            var reveals = document.querySelectorAll('.reveal');
+
+            for (var i = 0; i < reveals.length; i++) {
+                var windowheight = window.innerHeight;
+                var revealtop = reveals[i].getBoundingClientRect().top;
+                var revealpoint = 150;
+
+                if (revealtop < windowheight - revealpoint) {
+                    reveals[i].classList.add('active');
+                } else {
+                    reveals[i].classList.remove('active');
+                }
+            }
+        }
+        reveal();
+    </script>
+</body>
+</html>
